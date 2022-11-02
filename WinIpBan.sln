@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinIpBan", "WinIpBan.csproj", "{0CDD635A-117D-45AA-B0E0-1C7DE9FC90CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CDD635A-117D-45AA-B0E0-1C7DE9FC90CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CDD635A-117D-45AA-B0E0-1C7DE9FC90CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CDD635A-117D-45AA-B0E0-1C7DE9FC90CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CDD635A-117D-45AA-B0E0-1C7DE9FC90CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1C96385E-B7FF-4796-8E7F-DC348DFB95B0}
+	EndGlobalSection
+EndGlobal
