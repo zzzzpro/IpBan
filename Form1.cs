@@ -50,6 +50,7 @@ namespace WinIpBan
             tbxPorts.Text=Helper.config.ports;
             tbxLimit.Text= Helper.config.limit.ToString();
             tbxWirteList.Text=Helper.config.whiteList;
+            tbxActiveTimeout.Text= Helper.config.activeTimeout.ToString();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -92,7 +93,7 @@ namespace WinIpBan
             Helper.config.limit = int.Parse(tbxLimit.Text);
 
 
-
+            Helper.config.activeTimeout = int.Parse(tbxActiveTimeout.Text);
             Helper.config.ports = tbxPorts.Text;
 
             Helper.config.elapsedSeconds = int.Parse(tbxElapsedSeconds.Text);
@@ -224,6 +225,12 @@ namespace WinIpBan
                 dataGridView1.Rows[e.RowIndex].Selected = true;
                 selectIndex = e.RowIndex;
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            this.textBox1.SelectionStart = this.textBox1.Text.Length;
+            this.textBox1.ScrollToCaret();
         }
     }
 }

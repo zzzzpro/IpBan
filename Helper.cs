@@ -63,6 +63,24 @@ namespace WinIpBan
             }
             Task.Factory.StartNew(GetAllActive);
             Task.Factory.StartNew(RemoveElapsed);
+            Task.Factory.StartNew(RemoveActiveTimeout);
+        }
+
+        private static void RemoveActiveTimeout()
+        {
+            while (true)
+            {
+                //获取所有不活动的
+                var list = Models.Where(n => n.lastActiveDate.AddSeconds(config.activeTimeout) < DateTime.Now&&n.state==1);
+                if (list.Any())
+                {
+                    foreach (var model in list)
+                    {
+                        Models.Remove(model);
+                    }
+                }
+                Thread.Sleep(5000);
+            }
         }
 
         public static void OpenFw()
@@ -319,6 +337,7 @@ namespace WinIpBan
                         if (model.Limits == null) continue;
                         model.remotePort = c.RemoteEndPoint.Port;
                         model.totalCount++;
+                        model.lastActiveDate=DateTime.Now;
                         if (model.Limits.Check()) continue;
                         model.state = 1;
                         model.elapsedTime=DateTime.Now.AddSeconds(config.elapsedSeconds);
@@ -497,6 +516,8 @@ namespace WinIpBan
 
         public int state { get; set; } = 0;
 
+        public DateTime lastActiveDate { get; set; }=DateTime.Now;
+
         public DateTime? elapsedTime { get; set; } 
         [JsonIgnoreAttribute]
         public string elapsedTimeStr => state == 1 ? elapsedTime?.ToString("yyyy-MM-dd HH:mm:ss") : "";
@@ -513,5 +534,7 @@ namespace WinIpBan
         public int elapsedSeconds { get; set; } = 36000;
 
         public string ruleName { get; set; } = "ipban_win";
+
+        public int activeTimeout { get; set; } = 180;
     }
 }

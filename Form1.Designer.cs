@@ -68,6 +68,9 @@ namespace WinIpBan
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmNotify = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.退出程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label10 = new System.Windows.Forms.Label();
+            this.tbxActiveTimeout = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.cmData.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -210,6 +213,9 @@ namespace WinIpBan
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label11);
+            this.tabPage2.Controls.Add(this.tbxActiveTimeout);
+            this.tabPage2.Controls.Add(this.label10);
             this.tabPage2.Controls.Add(this.checkBox1);
             this.tabPage2.Controls.Add(this.btnSave);
             this.tabPage2.Controls.Add(this.label9);
@@ -237,7 +243,7 @@ namespace WinIpBan
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(77, 164);
+            this.checkBox1.Location = new System.Drawing.Point(77, 191);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(108, 16);
             this.checkBox1.TabIndex = 16;
@@ -247,7 +253,7 @@ namespace WinIpBan
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(650, 202);
+            this.btnSave.Location = new System.Drawing.Point(650, 242);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 14;
@@ -390,8 +396,10 @@ namespace WinIpBan
             this.textBox1.Location = new System.Drawing.Point(3, 3);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox1.Size = new System.Drawing.Size(746, 417);
             this.textBox1.TabIndex = 0;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // timer1
             // 
@@ -420,6 +428,31 @@ namespace WinIpBan
             this.退出程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.退出程序ToolStripMenuItem.Text = "退出程序";
             this.退出程序ToolStripMenuItem.Click += new System.EventHandler(this.退出程序ToolStripMenuItem_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(18, 158);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 17;
+            this.label10.Text = "自动移除";
+            // 
+            // tbxActiveTimeout
+            // 
+            this.tbxActiveTimeout.Location = new System.Drawing.Point(77, 155);
+            this.tbxActiveTimeout.Name = "tbxActiveTimeout";
+            this.tbxActiveTimeout.Size = new System.Drawing.Size(41, 21);
+            this.tbxActiveTimeout.TabIndex = 18;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(124, 158);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(89, 12);
+            this.label11.TabIndex = 19;
+            this.label11.Text = "秒内不活动的IP";
             // 
             // IpBan
             // 
@@ -488,6 +521,9 @@ namespace WinIpBan
         private System.Windows.Forms.ToolStripMenuItem 添加此ip至白名单ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 移除此ipToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 复制ipToolStripMenuItem;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox tbxActiveTimeout;
+        private System.Windows.Forms.Label label10;
     }
 }
 
