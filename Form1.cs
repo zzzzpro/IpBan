@@ -171,6 +171,7 @@ namespace WinIpBan
             model.state = 1;
             model.elapsedTime = DateTime.Now.AddSeconds(Helper.config.elapsedSeconds);
             Helper.BanAddress(new List<string>(){ value });
+            //DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 【" + ip + "】" + "解封"
             BindData();
         }
 
@@ -205,6 +206,7 @@ namespace WinIpBan
                 var model = Helper.Models.FirstOrDefault(n => n.ip == value);
                 if(model==null) return;
                 Helper.Models.Remove(model);
+
             }
 
             BindData();

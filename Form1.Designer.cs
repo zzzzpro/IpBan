@@ -46,6 +46,9 @@ namespace WinIpBan
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label11 = new System.Windows.Forms.Label();
+            this.tbxActiveTimeout = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
@@ -68,9 +71,6 @@ namespace WinIpBan
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmNotify = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.退出程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label10 = new System.Windows.Forms.Label();
-            this.tbxActiveTimeout = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.cmData.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -158,33 +158,33 @@ namespace WinIpBan
             this.移除此ipToolStripMenuItem,
             this.复制ipToolStripMenuItem});
             this.cmData.Name = "cmData";
-            this.cmData.Size = new System.Drawing.Size(172, 92);
+            this.cmData.Size = new System.Drawing.Size(181, 114);
             // 
             // 封禁此ipToolStripMenuItem
             // 
             this.封禁此ipToolStripMenuItem.Name = "封禁此ipToolStripMenuItem";
-            this.封禁此ipToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.封禁此ipToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.封禁此ipToolStripMenuItem.Text = "封禁此ip";
             this.封禁此ipToolStripMenuItem.Click += new System.EventHandler(this.封禁此ipToolStripMenuItem_Click);
             // 
             // 添加此ip至白名单ToolStripMenuItem
             // 
             this.添加此ip至白名单ToolStripMenuItem.Name = "添加此ip至白名单ToolStripMenuItem";
-            this.添加此ip至白名单ToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.添加此ip至白名单ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.添加此ip至白名单ToolStripMenuItem.Text = "添加此ip至白名单";
             this.添加此ip至白名单ToolStripMenuItem.Click += new System.EventHandler(this.添加此ip至白名单ToolStripMenuItem_Click);
             // 
             // 移除此ipToolStripMenuItem
             // 
             this.移除此ipToolStripMenuItem.Name = "移除此ipToolStripMenuItem";
-            this.移除此ipToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.移除此ipToolStripMenuItem.Text = "移除此ip";
+            this.移除此ipToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.移除此ipToolStripMenuItem.Text = "从列表中移除此ip";
             this.移除此ipToolStripMenuItem.Click += new System.EventHandler(this.移除此ipToolStripMenuItem_Click);
             // 
             // 复制ipToolStripMenuItem
             // 
             this.复制ipToolStripMenuItem.Name = "复制ipToolStripMenuItem";
-            this.复制ipToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.复制ipToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.复制ipToolStripMenuItem.Text = "复制ip";
             this.复制ipToolStripMenuItem.Click += new System.EventHandler(this.复制ipToolStripMenuItem_Click);
             // 
@@ -240,6 +240,31 @@ namespace WinIpBan
             this.tabPage2.Text = "设置";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(124, 158);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(89, 12);
+            this.label11.TabIndex = 19;
+            this.label11.Text = "秒内不活动的IP";
+            // 
+            // tbxActiveTimeout
+            // 
+            this.tbxActiveTimeout.Location = new System.Drawing.Point(77, 155);
+            this.tbxActiveTimeout.Name = "tbxActiveTimeout";
+            this.tbxActiveTimeout.Size = new System.Drawing.Size(41, 21);
+            this.tbxActiveTimeout.TabIndex = 18;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(18, 158);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 17;
+            this.label10.Text = "自动移除";
+            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
@@ -253,7 +278,7 @@ namespace WinIpBan
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(650, 242);
+            this.btnSave.Location = new System.Drawing.Point(669, 392);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 14;
@@ -428,31 +453,6 @@ namespace WinIpBan
             this.退出程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.退出程序ToolStripMenuItem.Text = "退出程序";
             this.退出程序ToolStripMenuItem.Click += new System.EventHandler(this.退出程序ToolStripMenuItem_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(18, 158);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 12);
-            this.label10.TabIndex = 17;
-            this.label10.Text = "自动移除";
-            // 
-            // tbxActiveTimeout
-            // 
-            this.tbxActiveTimeout.Location = new System.Drawing.Point(77, 155);
-            this.tbxActiveTimeout.Name = "tbxActiveTimeout";
-            this.tbxActiveTimeout.Size = new System.Drawing.Size(41, 21);
-            this.tbxActiveTimeout.TabIndex = 18;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(124, 158);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(89, 12);
-            this.label11.TabIndex = 19;
-            this.label11.Text = "秒内不活动的IP";
             // 
             // IpBan
             // 

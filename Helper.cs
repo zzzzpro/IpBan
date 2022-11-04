@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.ServiceProcess;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Win32;
@@ -23,6 +26,8 @@ namespace WinIpBan
         public static List<Model> Models { get; set; }= new List<Model>();
 
         public static Config config = new Config();
+
+        public static ConcurrentQueue<string> GetIpAddressQueue =new ConcurrentQueue<string>();
 
         public static void Init()
         {
@@ -64,6 +69,55 @@ namespace WinIpBan
             Task.Factory.StartNew(GetAllActive);
             Task.Factory.StartNew(RemoveElapsed);
             Task.Factory.StartNew(RemoveActiveTimeout);
+            Task.Factory.StartNew(DeQueue);
+        }
+
+        private static void DeQueue()
+        {
+            while (true)
+            {
+                try
+                {
+                    var item = "";
+                    GetIpAddressQueue.TryDequeue(out item);
+                    if (string.IsNullOrEmpty(item))
+                    {
+                        Thread.Sleep(500);
+                        continue;
+                    }
+
+                    WebClient webClient = new WebClient();
+                    webClient.Encoding=Encoding.UTF8;
+                    webClient.Headers[HttpRequestHeader.UserAgent] =
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
+                    try
+                    {
+                        var result = webClient.DownloadString($"https://ip.taobao.com/outGetIpInfo?accessKey=alibaba-inc&ip={item}");
+                        var jsonResult= JsonConvert.DeserializeObject<dynamic>(result);
+                        if (jsonResult.code == 0)
+                        {
+                            var address = jsonResult.data.country + jsonResult.data.region + jsonResult.data.city +
+                                          jsonResult.data.isp;
+                            var model = Models.FirstOrDefault(n => n.ip == item);
+                            if (model != null)
+                            {
+                                model.address = address;
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        
+                    }
+                   
+                    
+                }
+                catch (Exception e)
+                {
+                   
+                }
+                Thread.Sleep(500);
+            }
         }
 
         private static void RemoveActiveTimeout()
@@ -71,13 +125,25 @@ namespace WinIpBan
             while (true)
             {
                 //获取所有不活动的
-                var list = Models.Where(n => n.lastActiveDate.AddSeconds(config.activeTimeout) < DateTime.Now&&n.state==1);
+                var list = Models.Where(n => n.lastActiveDate.AddSeconds(config.activeTimeout) < DateTime.Now&&n.state==1).ToList();
                 if (list.Any())
                 {
-                    foreach (var model in list)
+                    lock (Models)
                     {
-                        Models.Remove(model);
+                        foreach (var model in list)
+                        {
+                            try
+                            {
+                                Models.Remove(model);
+                            }
+                            catch (Exception e)
+                            {
+
+                            }
+
+                        }
                     }
+                   
                 }
                 Thread.Sleep(5000);
             }
@@ -275,21 +341,21 @@ namespace WinIpBan
         public static void GetAllActive()
         {
             //加载ip
-            QQWryIpSearch ipSearch;
-            try
-            {
-                 ipSearch = new QQWryIpSearch(new QQWryOptions()
-                {
-                    DbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "qqwry.dat")
-                });
-                var pre = ipSearch.GetIpLocation("8.8.8.8");
+            //QQWryIpSearch ipSearch;
+            //try
+            //{
+            //    ipSearch = new QQWryIpSearch(new QQWryOptions()
+            //    {
+            //        DbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "qqwry.dat")
+            //    });
+            //    var pre = ipSearch.GetIpLocation("8.8.8.8");
              
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    throw;
+            //}
            
             while (true)
             {
@@ -307,16 +373,16 @@ namespace WinIpBan
                         n.ip == remoteIp && n.localPort == c.LocalEndPoint.Port);
                     if (model == null)
                     {
-                        var address = "未知";
-                        try
-                        {
-                            var ipLocation = ipSearch.GetIpLocation(remoteIp);
-                             address = ipLocation.Country + ipLocation.Area;
-                        }
-                        catch (Exception e)
-                        {
+                        //var address = "未知";
+                        //try
+                        //{
+                        //     var ipLocation = ipSearch.GetIpLocation(remoteIp);
+                        //     address = ipLocation.Country + ipLocation.Area;
+                        //}
+                        //catch (Exception e)
+                        //{
                             
-                        }
+                        //}
 
                         var newmodel = new Model
                         {
@@ -324,9 +390,10 @@ namespace WinIpBan
                             localPort = c.LocalEndPoint.Port,
                             remotePort = c.RemoteEndPoint.Port,
                             Limits = new Limits(config.limit, config.intervalSeconds),
-                            address = address
+                            //address = address
 
                         };
+                        GetIpAddressQueue.Enqueue(remoteIp);
                         newmodel.Limits.Check();
                         Models.Add(newmodel);
                         SeedMessage?.Invoke(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+" 【"+ remoteIp + "】" + "加入监控");
